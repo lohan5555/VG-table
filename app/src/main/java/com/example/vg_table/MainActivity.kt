@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,6 +26,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
+import com.example.vg_table.ui.screen.FavorisScreen
+import com.example.vg_table.ui.screen.SaisonsScreen
+import com.example.vg_table.ui.screen.SearchScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,9 +89,8 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController,
                         startDestination = Screen.Recherche.route,
-                        modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Screen.Saisons.route) { SaisonsScreen() }
+                        composable(Screen.Saisons.route) { SaisonsScreen(paddingValues = innerPadding) }
                         composable(Screen.Recherche.route) { SearchScreen() }
                         composable(Screen.Favoris.route) { FavorisScreen() }
                     }

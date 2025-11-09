@@ -1,4 +1,4 @@
-package com.example.vg_table
+package com.example.vg_table.ui.screen
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
