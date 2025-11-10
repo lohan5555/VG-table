@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -89,8 +90,9 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController,
                         startDestination = Screen.Recherche.route,
+                        modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Screen.Saisons.route) { SaisonsScreen(paddingValues = innerPadding) }
+                        composable(Screen.Saisons.route) { SaisonsScreen() }
                         composable(Screen.Recherche.route) { SearchScreen() }
                         composable(Screen.Favoris.route) { FavorisScreen() }
                     }
@@ -100,6 +102,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//class Screen, définisant la route, le nom, le label et les icons d'un écran de l'app
 sealed class Screen(
     val route: String,
     val label: String,
