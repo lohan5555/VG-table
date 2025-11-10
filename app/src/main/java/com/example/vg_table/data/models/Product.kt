@@ -1,5 +1,6 @@
 package com.example.vg_table.data.models
 
+//Fruit ou légume
 data class Product (
     val name: String = "",
     val slug: String = "",
