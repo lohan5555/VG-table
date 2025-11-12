@@ -13,3 +13,6 @@ val Pink40 = Color(0xFF7D5260)
 val Marron = Color(0xFFD6784D)
 val Orange = Color(0xFFF5AE72)
 var Beige = Color(0xFFFFE1CA)
+var Noir = Color.Black
+var GrisFonce = Color(0xFF333333)
+var GrisClair = Color(0xFFE9CBB5)
