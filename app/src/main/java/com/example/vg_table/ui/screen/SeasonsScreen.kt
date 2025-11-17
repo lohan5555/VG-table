@@ -94,18 +94,18 @@ fun MonthSelect(
     viewModel: ProductViewModel,
 ){
     val itemList = listOf(
-        Month(1,"Janvier"),
-        Month(2,"Février"),
-        Month(3,"Mars"),
-        Month(4,"Avril"),
-        Month(5,"Mai"),
-        Month(6,"Juin"),
-        Month(7,"Juillet"),
-        Month(8,"Aout"),
-        Month(9,"Septembre"),
-        Month(10,"Octobre"),
-        Month(11,"Novembre"),
-        Month(12,"Décembre")
+        Month(1,"January"),
+        Month(2,"February"),
+        Month(3,"March"),
+        Month(4,"April"),
+        Month(5,"May"),
+        Month(6,"June"),
+        Month(7,"July"),
+        Month(8,"August"),
+        Month(9,"September"),
+        Month(10,"October"),
+        Month(11,"November"),
+        Month(12,"December")
     )
     var expanded by remember { mutableStateOf(false) }
     val currentMonthId = SimpleDateFormat("MM", Locale.getDefault()).format(Date()).toInt()

@@ -10,6 +10,6 @@ interface ImpactC02service {
     suspend fun getProducts(
         @Query("month") month: String,
         @Query("category") category: String = "1,2",
-        @Query("language") language: String = "fr"
+        @Query("language") language: String = "en"
     ): ProductResponse
 }

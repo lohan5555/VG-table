@@ -40,9 +40,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 val screens = listOf(
-                    Screen.Saisons,
-                    Screen.Recherche,
-                    Screen.Favoris
+                    Screen.Seasons,
+                    Screen.Search,
+                    Screen.Favorites
                 )
 
                 Scaffold(
@@ -89,12 +89,12 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController,
-                        startDestination = Screen.Recherche.route,
+                        startDestination = Screen.Search.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Screen.Saisons.route) { SaisonsScreen() }
-                        composable(Screen.Recherche.route) { SearchScreen() }
-                        composable(Screen.Favoris.route) { FavorisScreen() }
+                        composable(Screen.Seasons.route) { SaisonsScreen() }
+                        composable(Screen.Search.route) { SearchScreen() }
+                        composable(Screen.Favorites.route) { FavorisScreen() }
                     }
                 }
             }
@@ -109,7 +109,7 @@ sealed class Screen(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
 ) {
-    object Saisons : Screen("saisons", "Saisons", Icons.Filled.DateRange, Icons.Outlined.DateRange)
-    object Recherche : Screen("recherche", "Recherche", Icons.Filled.Search, Icons.Outlined.Search)
-    object Favoris : Screen("favoris", "Favoris", Icons.Filled.Favorite, Icons.Outlined.Favorite)
+    object Seasons : Screen("seasons", "Seasons", Icons.Filled.DateRange, Icons.Outlined.DateRange)
+    object Search : Screen("search", "Search", Icons.Filled.Search, Icons.Outlined.Search)
+    object Favorites : Screen("favorites", "Favorites", Icons.Filled.Favorite, Icons.Outlined.Favorite)
 }
