@@ -11,4 +11,12 @@ object RetrofitInstance {
             .build()
             .create(ImpactC02service::class.java)
     }
+
+    val apispoonacular: SpoonacularService by lazy{
+        Retrofit.Builder()
+            .baseUrl("https://api.spoonacular.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(SpoonacularService::class.java)
+    }
 }

@@ -26,8 +26,6 @@ class ProductViewModel: ViewModel() {
             try {
                 val response = RetrofitInstance.api.getProducts(month)
                 _products.value = response.data
-                Log.d("ProductViewModel", "Fetched ${response.data.size} produits")
-                Log.d("API_RESPONSE", response.toString())
             }catch (e: Exception){
                 Log.e("ProductViewModel", "Erreur API", e)
             }

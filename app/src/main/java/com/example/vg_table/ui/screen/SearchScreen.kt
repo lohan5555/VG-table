@@ -23,13 +23,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.vg_table.viewModel.RecipeViewModel
 
+//Page permettant de faire une recherche de recette de cuisisne et affichant les
+//résultats sous forme d'une liste
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    //viewModel: RecipeViewModel = viewModel(),
+    viewModel: RecipeViewModel = viewModel(),
 ) {
-    //val recipes = viewModel.recipes.value
+    val recipes = viewModel.recipes.value
     var search by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
 
@@ -47,9 +50,6 @@ fun SearchScreen(
                         focusedTrailingIconColor = MaterialTheme.colorScheme.onPrimary,
                         unfocusedTrailingIconColor = MaterialTheme.colorScheme.onPrimary,
                     ),
-
-
-
                     query = search,
                     onQueryChange = {
                         search = it
