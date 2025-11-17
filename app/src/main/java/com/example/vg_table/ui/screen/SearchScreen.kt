@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -20,10 +21,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.vg_table.data.models.searchRecipe.Recipe
 import com.example.vg_table.viewModel.RecipeViewModel
+import androidx.compose.foundation.lazy.items
+import coil.compose.AsyncImage
 
 //Page permettant de faire une recherche de recette de cuisisne et affichant les
 //résultats sous forme d'une liste
@@ -83,22 +86,25 @@ fun SearchScreen(
                 .fillMaxWidth()
                 .padding(start = 10.dp, end = 10.dp)
         ) {}
-        ListeRecipe()
+        ListRecipe(recipes)
     }
 }
 
 @Composable
-fun ListeRecipe(){
+fun ListRecipe(listRecipe: List<Recipe>){
+    LazyColumn {
+        items(listRecipe){ recipe ->
+            Recipe(recipe)
+        }
+    }
 
 }
 
 @Composable
-fun Recipe(){
-
-}
-
-@Preview
-@Composable
-fun PreviewRecipe(){
-    Recipe()
+fun Recipe(recipe: Recipe){
+    AsyncImage(
+        model = recipe.image,
+        contentDescription = null,
+    )
+    Text(recipe.title, color = MaterialTheme.colorScheme.onPrimary)
 }

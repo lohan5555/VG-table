@@ -13,5 +13,6 @@ interface SpoonacularService {
         @Query("query") query: String,
         @Query("addRecipeInformation") addRecipeInformation: String = "true",
         @Query("addRecipeInstructions") addRecipeInstructions: String = "true",
+        @Query("number") number: String = "15", //number of results in the query
     ): RecipeResponse
 }
