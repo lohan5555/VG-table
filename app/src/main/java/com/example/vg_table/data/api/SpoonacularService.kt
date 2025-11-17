@@ -10,7 +10,7 @@ interface SpoonacularService {
     @GET("recipes/complexSearch")
     suspend fun searchRecipe(
         @Query("apiKey") apiKey: String = BuildConfig.API_KEY,
-        @Query("query") query: String = "cake",
+        @Query("query") query: String,
         @Query("addRecipeInformation") addRecipeInformation: String = "true",
         @Query("addRecipeInstructions") addRecipeInstructions: String = "true",
     ): RecipeResponse

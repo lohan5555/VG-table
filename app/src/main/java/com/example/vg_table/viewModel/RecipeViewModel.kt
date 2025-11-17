@@ -13,14 +13,11 @@ class RecipeViewModel: ViewModel() {
     private val _recipes = mutableStateOf<List<Recipe>>(emptyList())
     val recipes: State<List<Recipe>> = _recipes
 
-    init {
-        faireUneRecherche()
-    }
 
-    fun faireUneRecherche(){
+    fun searchRecipe(search: String){
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.apispoonacular.searchRecipe()
+                val response = RetrofitInstance.apispoonacular.searchRecipe(query = search)
                 _recipes.value = response.results
                 Log.d("RecipeViewModel", "Fetched ${response.results.size} recette")
                 Log.d("RecipeViewModel", response.results[0].analyzedInstructions[0].steps[0].ingredients.toString())

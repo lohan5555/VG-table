@@ -56,7 +56,7 @@ fun SearchScreen(
                     },
                     onSearch = {
                         expanded = false
-                        //viewModel.fetchRecipe(search)
+                        viewModel.searchRecipe(search)
                     },
                     expanded = expanded,
                     onExpandedChange = { expanded = false },
