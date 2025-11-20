@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VG-table</string>
+    <string name="noInstruction">No instructions available</string>
 </resources>

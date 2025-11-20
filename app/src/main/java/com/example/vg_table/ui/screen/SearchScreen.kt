@@ -25,8 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.vg_table.data.models.searchRecipe.Recipe
 import com.example.vg_table.viewModel.RecipeViewModel
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
+import com.example.vg_table.R
 
 //Page permettant de faire une recherche de recette de cuisisne et affichant les
 //résultats sous forme d'une liste
@@ -43,7 +48,7 @@ fun SearchScreen(
         SearchBar(
             inputField = {
                 SearchBarDefaults.InputField(
-                    colors = androidx.compose.material3.TextFieldDefaults.colors(
+                    colors = TextFieldDefaults.colors(
                         focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
                         unfocusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
                         focusedTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -90,9 +95,12 @@ fun SearchScreen(
     }
 }
 
+//affichage d'une liste de recette
 @Composable
 fun ListRecipe(listRecipe: List<Recipe>){
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
         items(listRecipe){ recipe ->
             Recipe(recipe)
         }
@@ -100,11 +108,46 @@ fun ListRecipe(listRecipe: List<Recipe>){
 
 }
 
+//affichage d'une recette
 @Composable
-fun Recipe(recipe: Recipe){
-    AsyncImage(
-        model = recipe.image,
-        contentDescription = null,
-    )
-    Text(recipe.title, color = MaterialTheme.colorScheme.onPrimary)
+fun Recipe(recipe: Recipe) {
+    Column(
+        modifier = Modifier.padding(top = 5.dp, bottom = 10.dp)
+    ) {
+        //image de la recette
+        AsyncImage(
+            model = recipe.image,
+            contentDescription = null,
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.FillWidth
+        )
+
+        //Titre de la recette
+        Text(
+            recipe.title,
+            color = MaterialTheme.colorScheme.onPrimary,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        val instructions = recipe.analyzedInstructions
+        if (instructions.isNotEmpty()) {
+            val steps = instructions[0].steps
+
+            //Liste des ingrédients
+            steps.forEach { step ->
+                step.ingredients.forEach { ingredient ->
+                    Text(" - ${ingredient.name}", color = MaterialTheme.colorScheme.onPrimary)
+                }
+            }
+
+            //Liste des étapes
+            steps.forEach { step ->
+                Text(step.step, color = MaterialTheme.colorScheme.onPrimary)
+            }
+        } else {
+            Text(stringResource(R.string.noInstruction), color = MaterialTheme.colorScheme.onPrimary)
+        }
+
+    }
 }
