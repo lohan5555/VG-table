@@ -35,64 +35,68 @@ import com.example.vg_table.R
 
 //Page permettant de faire une recherche de recette de cuisisne et affichant les
 //résultats sous forme d'une liste
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     viewModel: RecipeViewModel = viewModel(),
 ) {
     val recipes = viewModel.recipes.value
-    var search by remember { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        SearchBar(
-            inputField = {
-                SearchBarDefaults.InputField(
-                    colors = TextFieldDefaults.colors(
-                        focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
-                        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
-                        focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                        unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                        focusedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
-                        unfocusedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
-                        focusedTrailingIconColor = MaterialTheme.colorScheme.onPrimary,
-                        unfocusedTrailingIconColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
-                    query = search,
-                    onQueryChange = {
-                        search = it
-                    },
-                    onSearch = {
-                        expanded = false
-                        viewModel.searchRecipe(search)
-                    },
-                    expanded = expanded,
-                    onExpandedChange = { expanded = false },
-                    placeholder = { Text("Looking for an recipe ...") },
-                    leadingIcon = {
-                        Icon(Icons.Default.Search, contentDescription = "search")
-                    },
-                    trailingIcon = {
-                        if (search.isNotEmpty()) {
-                            IconButton(onClick = { search = "" }) {
-                                Icon(Icons.Default.Close, contentDescription = "clear search")
-                            }
-                        }
-                    }
-                )
-            },
-            colors = SearchBarDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.onTertiary
-            ),
-            windowInsets = WindowInsets(top = 0.dp), //pour coller la searchBar en haut
-            expanded = expanded,
-            onExpandedChange = { expanded = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 10.dp, end = 10.dp)
-        ) {}
+        Search(viewModel)
         ListRecipe(recipes)
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Search(viewModel: RecipeViewModel){
+    var search by remember { mutableStateOf("") }
+
+    SearchBar(
+        inputField = {
+            SearchBarDefaults.InputField(
+                colors = TextFieldDefaults.colors(
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.onPrimary,
+                    focusedTrailingIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unfocusedTrailingIconColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                query = search,
+                onQueryChange = {
+                    search = it
+                },
+                onSearch = {
+                    viewModel.searchRecipe(search)
+                },
+                expanded = false,
+                onExpandedChange = { null },
+                placeholder = { Text("Looking for an recipe ...") },
+                leadingIcon = {
+                    Icon(Icons.Default.Search, contentDescription = "search")
+                },
+                trailingIcon = {
+                    if (search.isNotEmpty()) {
+                        IconButton(onClick = { search = "" }) {
+                            Icon(Icons.Default.Close, contentDescription = "clear search")
+                        }
+                    }
+                }
+            )
+        },
+        colors = SearchBarDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.onTertiary
+        ),
+        windowInsets = WindowInsets(top = 0.dp), //pour coller la searchBar en haut
+        expanded = false,
+        onExpandedChange = { null },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 10.dp, end = 10.dp)
+    ) {}
 }
 
 //affichage d'une liste de recette
