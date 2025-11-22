@@ -1,7 +1,9 @@
 package com.example.vg_table.ui.screen
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -21,7 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -32,8 +33,11 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import coil.compose.AsyncImage
 
@@ -55,7 +59,7 @@ fun SearchScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Search(viewModel: RecipeViewModel){
-    var search by remember { mutableStateOf("") }
+    var search by rememberSaveable { mutableStateOf("") }
 
     SearchBar(
         inputField = {
@@ -120,18 +124,40 @@ fun ListRecipe(listRecipe: List<Recipe>){
 //affichage d'une recette
 @Composable
 fun Recipe(recipe: Recipe) {
+    //si la liste des ingrédients et des étapes est déroulée
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.padding(top = 5.dp, bottom = 10.dp)
     ) {
-        //image de la recette
-        AsyncImage(
-            model = recipe.image,
-            contentDescription = null,
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.FillWidth
-        )
+        //Une box pour pouvoir superposer l'image et le bouton favoris
+        Box{
+            var isFavorite by rememberSaveable { mutableStateOf(false) }
+            AsyncImage(
+                model = recipe.image,
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillWidth
+            )
+
+            Icon(
+                imageVector = if (isFavorite) {
+                    Icons.Default.Favorite
+                } else {
+                    Icons.Default.FavoriteBorder
+                },
+                tint = MaterialTheme.colorScheme.onPrimary,
+                contentDescription = "Favorite icone",
+                modifier = Modifier
+                    .clickable{
+                        Log.d("Favorite icone", "Add au favoris")
+                        isFavorite = !isFavorite
+                    }
+                    .align(Alignment.TopEnd)
+                    .padding(16.dp)
+            )
+        }
+
 
         Row(
             modifier = Modifier
@@ -144,7 +170,7 @@ fun Recipe(recipe: Recipe) {
                 recipe.title,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = 0.dp)
             )
 
 
@@ -152,7 +178,7 @@ fun Recipe(recipe: Recipe) {
                 imageVector = Icons.Default.KeyboardArrowDown,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 2.dp)
             )
         }
         AnimatedVisibility(visible = expanded) {
