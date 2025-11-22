@@ -1,6 +1,9 @@
 package com.example.vg_table.ui.screen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,9 +32,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.lazy.items
-import androidx.compose.ui.res.stringResource
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.text.style.TextAlign
 import coil.compose.AsyncImage
-import com.example.vg_table.R
 
 //Page permettant de faire une recherche de recette de cuisisne et affichant les
 //résultats sous forme d'une liste
@@ -47,6 +51,7 @@ fun SearchScreen(
     }
 }
 
+//barre de recherche
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Search(viewModel: RecipeViewModel){
@@ -115,6 +120,8 @@ fun ListRecipe(listRecipe: List<Recipe>){
 //affichage d'une recette
 @Composable
 fun Recipe(recipe: Recipe) {
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.padding(top = 5.dp, bottom = 10.dp)
     ) {
@@ -126,32 +133,61 @@ fun Recipe(recipe: Recipe) {
             contentScale = ContentScale.FillWidth
         )
 
-        //Titre de la recette
-        Text(
-            recipe.title,
-            color = MaterialTheme.colorScheme.onPrimary,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = !expanded }
+                .padding(vertical = 8.dp, horizontal = 5.dp),
+        ) {
+            //Titre de la recette
+            Text(
+                recipe.title,
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
 
-        val instructions = recipe.analyzedInstructions
-        if (instructions.isNotEmpty()) {
-            val steps = instructions[0].steps
 
-            //Liste des ingrédients
-            steps.forEach { step ->
-                step.ingredients.forEach { ingredient ->
-                    Text(" - ${ingredient.name}", color = MaterialTheme.colorScheme.onPrimary)
-                }
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowDown,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+        AnimatedVisibility(visible = expanded) {
+            Column(
+                modifier = Modifier.padding(start = 10.dp, bottom = 50.dp)
+            ) {
+                RecipeContent(recipe)
             }
+        }
+    }
+}
 
-            //Liste des étapes
-            steps.forEach { step ->
-                Text(step.step, color = MaterialTheme.colorScheme.onPrimary)
+//les ingrédients et les étapes d'une recette
+@Composable
+fun RecipeContent(recipe: Recipe) {
+    val instructions = recipe.analyzedInstructions
+    if (instructions.isNotEmpty()) {
+        val steps = instructions[0].steps
+
+        // Ingrédients
+        steps.forEach { step ->
+            step.ingredients.forEach { ingredient ->
+                Text(" - ${ingredient.name}", color = MaterialTheme.colorScheme.onPrimary)
             }
-        } else {
-            Text(stringResource(R.string.noInstruction), color = MaterialTheme.colorScheme.onPrimary)
         }
 
+        // Étapes
+        steps.forEach { step ->
+            Text(
+                step.step,
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Justify
+            )
+        }
+    } else {
+        Text("Aucune instruction disponible.", color = MaterialTheme.colorScheme.onPrimary)
     }
 }
