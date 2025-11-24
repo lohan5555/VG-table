@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.SystemBarStyle
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar
@@ -34,7 +35,12 @@ import com.example.vg_table.ui.screen.SearchScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle.light(
+                scrim = 0xFFF5AE72.toInt(),
+                darkScrim = 0xFFF5AE72.toInt()
+            )
+        )
         setContent {
             VGtableTheme {
                 val navController = rememberNavController()
