@@ -15,9 +15,11 @@ import com.example.vg_table.ui.theme.VGtableTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -46,8 +48,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 val screens = listOf(
-                    Screen.Seasons,
                     Screen.Search,
+                    Screen.Seasons,
                     Screen.Favorites
                 )
 
@@ -95,7 +97,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController,
-                        startDestination = Screen.Search.route,
+                        startDestination = Screen.Seasons.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(Screen.Seasons.route) { SaisonsScreen() }
@@ -117,5 +119,5 @@ sealed class Screen(
 ) {
     object Seasons : Screen("seasons", "Seasons", Icons.Filled.DateRange, Icons.Outlined.DateRange)
     object Search : Screen("search", "Search", Icons.Filled.Search, Icons.Outlined.Search)
-    object Favorites : Screen("favorites", "Favorites", Icons.Filled.Favorite, Icons.Outlined.Favorite)
+    object Favorites : Screen("favorites", "Favorites", Icons.Filled.FavoriteBorder, Icons.Outlined.FavoriteBorder)
 }

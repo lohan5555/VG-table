@@ -36,22 +36,25 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import coil.compose.AsyncImage
+import com.example.vg_table.data.database.AppViewModelProvider
+import com.example.vg_table.data.models.searchRecipe.toEntity
 
-//Page permettant de faire une recherche de recette de cuisisne et affichant les
-//résultats sous forme d'une liste
+//Page permettant de faire une recherche de recette de cuisisne
+// et affichant les résultats sous forme d'une liste
 @Composable
 fun SearchScreen(
-    viewModel: RecipeViewModel = viewModel(),
+    viewModel: RecipeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val recipes = viewModel.recipes.value
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Search(viewModel)
-        ListRecipe(recipes)
+        ListRecipe(recipes, viewModel)
     }
 }
 
@@ -110,12 +113,12 @@ fun Search(viewModel: RecipeViewModel){
 
 //affichage d'une liste de recette
 @Composable
-fun ListRecipe(listRecipe: List<Recipe>){
+fun ListRecipe(listRecipe: List<Recipe>, viewModel: RecipeViewModel){
     LazyColumn(
         modifier = Modifier.padding(top = 10.dp)
     ) {
         items(listRecipe){ recipe ->
-            Recipe(recipe)
+            RecipeCard(recipe, viewModel)
         }
     }
 
@@ -123,7 +126,7 @@ fun ListRecipe(listRecipe: List<Recipe>){
 
 //affichage d'une recette
 @Composable
-fun Recipe(recipe: Recipe) {
+fun RecipeCard(recipe: Recipe, viewModel: RecipeViewModel) {
     //si la liste des ingrédients et des étapes est déroulée
     var expanded by rememberSaveable { mutableStateOf(false) }
 
@@ -132,7 +135,11 @@ fun Recipe(recipe: Recipe) {
     ) {
         //Une box pour pouvoir superposer l'image et le bouton favoris
         Box{
-            var isFavorite by rememberSaveable { mutableStateOf(false) }
+            //la liste des recette enregistrées en favoris
+            val favorites by viewModel.favorites.collectAsState()
+
+            val isFavorite = favorites.any { it.id == recipe.id }
+
             AsyncImage(
                 model = recipe.image,
                 contentDescription = null,
@@ -140,6 +147,7 @@ fun Recipe(recipe: Recipe) {
                 contentScale = ContentScale.FillWidth
             )
 
+            //bouton favoris
             Icon(
                 imageVector = if (isFavorite) {
                     Icons.Default.Favorite
@@ -150,8 +158,11 @@ fun Recipe(recipe: Recipe) {
                 contentDescription = "Favorite icone",
                 modifier = Modifier
                     .clickable{
-                        Log.d("Favorite icone", "Add au favoris")
-                        isFavorite = !isFavorite
+                        if(!isFavorite){
+                            viewModel.addFavorite(recipe)
+                        }else{
+                            viewModel.removeFavorite(recipe.toEntity())
+                        }
                     }
                     .align(Alignment.TopEnd)
                     .padding(16.dp)
