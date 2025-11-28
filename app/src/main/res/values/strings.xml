@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">VG-table</string>
     <string name="noInstruction">No instructions available</string>
+    <string name="noFavorites">No recipes saved as favorites</string>
 </resources>

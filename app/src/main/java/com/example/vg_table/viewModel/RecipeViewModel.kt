@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vg_table.data.api.RetrofitInstance
 import com.example.vg_table.data.database.RecipeRepository
+import com.example.vg_table.data.database.entities.RecipeBase
 import com.example.vg_table.data.database.entities.RecipeEntity
 import com.example.vg_table.data.models.searchRecipe.Recipe
 import com.example.vg_table.data.models.searchRecipe.toEntity
@@ -40,7 +41,7 @@ class RecipeViewModel(
     }
 
     // Ajouter aux favoris d'une recette
-    fun addFavorite(recipe: Recipe) {
+    fun addFavorite(recipe: RecipeBase) {
         viewModelScope.launch {
             repository.insertRecipe(recipe.toEntity())
         }

@@ -1,13 +1,15 @@
 package com.example.vg_table.data.models.searchRecipe
 
+import com.example.vg_table.data.database.entities.RecipeBase
 import com.example.vg_table.data.database.entities.RecipeEntity
 
+//une recette récupérer depuis l'API
 data class Recipe(
-    val analyzedInstructions: List<AnalyzedInstruction>,
-    val id: Int,
-    val image: String,
-    val title: String,
-)
+    override val analyzedInstructions: List<AnalyzedInstruction>,
+    override val id: Int,
+    override val image: String,
+    override val title: String,
+): RecipeBase
 
 data class RecipeResponse(
     val results: List<Recipe>,
@@ -16,8 +18,10 @@ data class RecipeResponse(
     val totalResults: Int
 )
 
-fun Recipe.toEntity() = RecipeEntity(
+//convertion pour persistence local
+fun RecipeBase.toEntity() = RecipeEntity(
     id = this.id,
     title = this.title,
-    image = this.image
+    image = this.image,
+    analyzedInstructions = this.analyzedInstructions
 )
