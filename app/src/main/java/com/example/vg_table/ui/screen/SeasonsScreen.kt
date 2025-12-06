@@ -48,6 +48,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.LaunchedEffect
 
 //Page listant les fruits et legumes de saison dans une liste de card
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +57,11 @@ fun SaisonsScreen(
     viewModel: ProductViewModel = viewModel(),
 ) {
     val products = viewModel.products.value
+
+    LaunchedEffect(Unit) {
+        val month = SimpleDateFormat("MM", Locale.getDefault()).format(Date()).toInt()
+        viewModel.fetchProducts(month.toString())
+    }
 
     if(products.isEmpty()){
         Box(
