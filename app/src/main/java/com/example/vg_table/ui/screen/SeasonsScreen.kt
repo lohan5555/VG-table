@@ -207,8 +207,7 @@ fun ProductCard(product: Product){
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .padding(10.dp)
-            .fillMaxWidth()
-            .aspectRatio(1f), //pour des cards carrés
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
     ){
         Box(modifier = Modifier
