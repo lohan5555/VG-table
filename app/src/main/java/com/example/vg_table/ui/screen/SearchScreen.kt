@@ -37,8 +37,10 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import coil.compose.AsyncImage
+import com.example.vg_table.R
 import com.example.vg_table.data.database.AppViewModelProvider
 import com.example.vg_table.data.database.entities.RecipeBase
 import com.example.vg_table.data.models.searchRecipe.toEntity
@@ -143,7 +145,9 @@ fun RecipeCard(recipe: RecipeBase, viewModel: RecipeViewModel) {
                 model = recipe.image,
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth(),
-                contentScale = ContentScale.FillWidth
+                contentScale = ContentScale.FillWidth,
+                placeholder = painterResource(R.drawable.error),
+                error = painterResource(R.drawable.error),
             )
 
             //bouton favoris
