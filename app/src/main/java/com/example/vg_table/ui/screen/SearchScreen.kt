@@ -239,11 +239,12 @@ fun RecipeContent(recipe: RecipeBase) {
                 Text(" - ${ingredient.name}", color = MaterialTheme.colorScheme.onPrimary)
             }
         }
+        Text("\n")
 
         // Étapes
         steps.forEach { step ->
             Text(
-                step.step,
+                "- ${step.step}\n",
                 color = MaterialTheme.colorScheme.onPrimary,
                 textAlign = TextAlign.Justify
             )

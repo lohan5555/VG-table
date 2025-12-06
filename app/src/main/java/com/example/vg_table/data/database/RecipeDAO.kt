@@ -17,9 +17,6 @@ interface RecipeDAO {
     @Delete
     suspend fun delete(recipe: RecipeEntity)
 
-    //Avec Flow comme type renvoyé,
-    // - vous recevez une notification chaque fois que les données de la base de données changent
-    // - Room exécute également la requête sur le thread d'arrière-plan. Vous n'avez pas besoin de la définir explicitement comme une fonction suspend et de l'appeler dans le cadre d'une coroutine.
     @Query("SELECT * from recipeBDD ORDER BY id ASC")
     fun getAllRecipes(): Flow<List<RecipeEntity>>
 }

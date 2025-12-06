@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    val api: ImpactC02service by lazy {
+    val apiImpactC02: ImpactC02service by lazy {
         Retrofit.Builder()
             .baseUrl("https://impactco2.fr/api/v1/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -12,7 +12,7 @@ object RetrofitInstance {
             .create(ImpactC02service::class.java)
     }
 
-    val apispoonacular: SpoonacularService by lazy{
+    val apiSpoonacular: SpoonacularService by lazy{
         Retrofit.Builder()
             .baseUrl("https://api.spoonacular.com/")
             .addConverterFactory(GsonConverterFactory.create())

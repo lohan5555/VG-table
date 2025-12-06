@@ -46,7 +46,7 @@ class RecipeViewModel(
 
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.apispoonacular.searchRecipe(query = search)
+                val response = RetrofitInstance.apiSpoonacular.searchRecipe(query = search)
                 _recipes.value = response.results
             }catch (e: Exception){
                 if (e is java.net.UnknownHostException || e is java.net.ConnectException) {

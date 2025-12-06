@@ -24,7 +24,7 @@ class ProductViewModel: ViewModel() {
     fun fetchProducts(month: String){
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.getProducts(month)
+                val response = RetrofitInstance.apiImpactC02.getProducts(month)
                 _products.value = response.data
             }catch (e: Exception){
                 Log.e("ProductViewModel", "Erreur API", e)
